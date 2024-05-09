@@ -1,6 +1,7 @@
 
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
+import '../../../features/auth/presentation/widgets/sign_up.dart';
 import '../../../features/home.dart';
 @singleton
 class AppRouter {
@@ -10,7 +11,7 @@ class AppRouter {
     routes: [
     GoRoute(
     path: '/',
-    builder: (context, state) => HomeScreen(),
+    builder: (context, state) => const SignUp(),
   ),
 ]
   );
