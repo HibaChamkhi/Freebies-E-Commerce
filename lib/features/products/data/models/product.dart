@@ -11,6 +11,7 @@ abstract class ProductModel with _$ProductModel {
     required String name,
     required String description,
     required String price,
+    required String image,
   }) = _ProductModel;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) =>
