@@ -14,6 +14,7 @@ class ProductBox extends StatefulWidget {
 class _ProductBoxState extends State<ProductBox> {
   @override
   Widget build(BuildContext context) {
+    print(widget.product.image);
     return Container(
       width: 156.w,
       decoration: BoxDecoration(
@@ -39,10 +40,14 @@ class _ProductBoxState extends State<ProductBox> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    color: Colors.blue,
-                    width: 125.w,
-                    height: 125.w,
-                  ),
+                      width: 125.w,
+                      height: 125.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(15.r)),
+                      ),
+                      child: Image.network(
+                       widget.product.image,
+                      ),),
                 ],
               ),
               Row(

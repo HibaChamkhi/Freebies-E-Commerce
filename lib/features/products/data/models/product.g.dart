@@ -13,6 +13,7 @@ _$ProductModelImpl _$$ProductModelImplFromJson(Map<String, dynamic> json) =>
       description: json['description'] as String,
       createdAt: json['created_at'] as String,
       price:  json['price'] as String,
+      image:  json['image'] as String,
     );
 
 Map<String, dynamic> _$$ProductModelImplToJson(_$ProductModelImpl instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$$ProductModelImplToJson(_$ProductModelImpl instance) =>
       'description': instance.description,
       'created_at': instance.createdAt,
       'price': instance.price,
+      'image': instance.image,
     };
