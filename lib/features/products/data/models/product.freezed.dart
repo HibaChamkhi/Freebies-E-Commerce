@@ -20,7 +20,7 @@ ProductModel _$ProductModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ProductModel {
-  int? get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   String get createdAt => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $ProductModelCopyWith<$Res> {
       _$ProductModelCopyWithImpl<$Res, ProductModel>;
   @useResult
   $Res call(
-      {int? id,
+      {int id,
       String createdAt,
       String name,
       String description,
@@ -61,7 +61,7 @@ class _$ProductModelCopyWithImpl<$Res, $Val extends ProductModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
+    Object? id = null,
     Object? createdAt = null,
     Object? name = null,
     Object? description = null,
@@ -69,10 +69,10 @@ class _$ProductModelCopyWithImpl<$Res, $Val extends ProductModel>
     Object? image = null,
   }) {
     return _then(_value.copyWith(
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -106,7 +106,7 @@ abstract class _$$ProductModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int? id,
+      {int id,
       String createdAt,
       String name,
       String description,
@@ -125,7 +125,7 @@ class __$$ProductModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
+    Object? id = null,
     Object? createdAt = null,
     Object? name = null,
     Object? description = null,
@@ -133,10 +133,10 @@ class __$$ProductModelImplCopyWithImpl<$Res>
     Object? image = null,
   }) {
     return _then(_$ProductModelImpl(
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -165,7 +165,7 @@ class __$$ProductModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ProductModelImpl implements _ProductModel {
   const _$ProductModelImpl(
-      {this.id,
+      {required this.id,
       required this.createdAt,
       required this.name,
       required this.description,
@@ -176,7 +176,7 @@ class _$ProductModelImpl implements _ProductModel {
       _$$ProductModelImplFromJson(json);
 
   @override
-  final int? id;
+  final int id;
   @override
   final String createdAt;
   @override
@@ -229,7 +229,7 @@ class _$ProductModelImpl implements _ProductModel {
 
 abstract class _ProductModel implements ProductModel {
   const factory _ProductModel(
-      {final int? id,
+      {required final int id,
       required final String createdAt,
       required final String name,
       required final String description,
@@ -240,7 +240,7 @@ abstract class _ProductModel implements ProductModel {
       _$ProductModelImpl.fromJson;
 
   @override
-  int? get id;
+  int get id;
   @override
   String get createdAt;
   @override

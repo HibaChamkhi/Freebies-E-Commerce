@@ -21,7 +21,9 @@ class RemoteDataSourceImpl implements ProductDataSource {
   Future<List<ProductModel>> getProducts() async {
     try {
       List<Map<String, dynamic>> response = await supabase.from('products').select('*');
-      List<ProductModel> products = response.map((productData) => ProductModel.fromJson(productData)).toList();
+      print("response $response");
+     var products = response.map((productData) => ProductModel.fromJson(productData)).toList();
+      print("products ${response.map((productData) => ProductModel.fromJson(productData)).toList()}");
       return products;
     } catch (e) {
       print('Error fetching products: $e');

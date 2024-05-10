@@ -9,12 +9,12 @@ abstract class RegisterEvent extends Equatable {
 }
 
 class CreateAccountEvent extends RegisterEvent {
-  final UserEntity userEntity;
-
-  const CreateAccountEvent({required this.userEntity});
+  final UserModel user ;
+ final File imageFile ;
+  const CreateAccountEvent(this.imageFile, {required this.user});
 
   @override
-  List<Object> get props => [userEntity];
+  List<Object> get props => [user];
 }
 
 class GetCurrencyEvent extends RegisterEvent {}

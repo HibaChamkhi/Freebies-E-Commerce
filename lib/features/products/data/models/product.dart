@@ -6,7 +6,7 @@ part 'product.g.dart';
 @freezed
 abstract class ProductModel with _$ProductModel {
   const factory ProductModel({
-    int? id,
+    required int id,
     required String createdAt,
     required String name,
     required String description,

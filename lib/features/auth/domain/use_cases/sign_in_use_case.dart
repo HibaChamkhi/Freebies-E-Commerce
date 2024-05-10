@@ -6,11 +6,11 @@ import '../../../../core/utils/error/failures.dart';
 import '../repositories/auth_repository.dart';
 
 @Injectable()
-class LogOutUseCase {
+class SignInUseCase {
   final AuthRepository repository;
 
-  LogOutUseCase({required this.repository});
-  Future<Either<Failure,Unit>>  call() async {
-    return await repository.logOut();
+  SignInUseCase({required this.repository});
+  Future<Either<Failure,Unit>>  call(String email, String password) async {
+    return await repository.signInUser(email, password);
   }
 }

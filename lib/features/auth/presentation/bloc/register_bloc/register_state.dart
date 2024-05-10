@@ -1,43 +1,33 @@
 part of 'register_bloc.dart';
 
 class RegisterState extends Equatable {
-  final String message;
+  final RegisterStatus registerStatus;
+  final String messages;
 
-  final bool isLoading;
-  final String error;
-  final bool success;
-  final List<CurrencyModel> currency;
 
-  const RegisterState({
-    this.message = "",
-    this.isLoading = false,
-    this.error = "",
-    this.success = false,
-    this.currency = const [],
-  });
+
+  const RegisterState(
+      {
+        this.messages = "",
+        this.registerStatus = RegisterStatus.loading
+      });
 
   RegisterState copyWith({
-    String? message,
-    bool? isLoading,
-    String? error,
-    bool? success,
-    List<CurrencyModel>? currency,
+    RegisterStatus? registerStatus,
+    String? messages,
+
   }) {
     return RegisterState(
-      message: message ?? this.message,
-      isLoading: isLoading ?? this.isLoading,
-      error: error ?? this.error,
-      success: success ?? this.success,
-      currency: currency ?? this.currency,
+      registerStatus: registerStatus ?? this.registerStatus,
+      messages: messages ?? this.messages,
     );
   }
 
   @override
   List<Object?> get props => [
-        message,
-        isLoading,
-        error,
-        success,
-        currency,
-      ];
+    registerStatus,
+    messages,
+  ];
 }
+
+enum RegisterStatus {loading, success, error}

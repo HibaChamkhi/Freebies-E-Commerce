@@ -1,33 +1,32 @@
 part of 'login_bloc.dart';
 
 class LoginState extends Equatable {
-  final bool isLoading;
-  final String error;
-  final bool success;
+  final LoginStatus loginStatus;
+  final String messages;
+
 
   const LoginState(
       {
-        this.error = "",
-        this.success = false,
-        this.isLoading = false,});
+        this.messages = "",
+        this.loginStatus = LoginStatus.loading
+      });
 
   LoginState copyWith({
-    bool? isLoading,
-    String? error,
-    bool? success,
+    LoginStatus? loginStatus,
+    String? messages,
+
   }) {
     return LoginState(
-      isLoading: isLoading ?? this.isLoading,
-      error: error ?? this.error,
-      success: success ?? this.success,
+      loginStatus: loginStatus ?? this.loginStatus,
+      messages: messages ?? this.messages,
     );
   }
 
   @override
   List<Object?> get props => [
-    isLoading,
-    error,
-    success,
+    loginStatus,
+    messages,
   ];
 }
 
+enum LoginStatus {loading, success, error}

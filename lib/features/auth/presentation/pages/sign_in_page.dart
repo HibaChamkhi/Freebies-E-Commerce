@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/app_theme.dart';
-import '../../../../core/utils/used_functions.dart';
-import '../../../products/presentation/pages/announcements_page.dart';
+import 'package:freebies_e_commerce/features/auth/presentation/widgets/sign_in.dart';
+import 'package:freebies_e_commerce/features/home.dart';
+import '../../../../core/config/injection/injection.dart';
 import '../bloc/login_bloc/login_bloc.dart';
-import 'package:savane_vendeur/injection_container.dart' as di;
-import '../widgets/login_widget.dart';
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+
+class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignInPage> createState() => _SignInPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider(create: (_) => di.sl<LoginBloc>()),
+          BlocProvider(create: (_) => getIt<LoginBloc>()),
         ],
         child: Scaffold(
           backgroundColor: const Color(0xffFFFFFF),
@@ -28,17 +27,17 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildBody() {
     return Center(
       child: BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
-        if (state.error.isNotEmpty) {
-          showSnackBar(
-              context,
-             state.error,
-              fuzzyWuzzyBrown.withOpacity(0.8));
-        } else if (state.success) {
+        if (state.loginStatus == LoginStatus.loading) {
+
+        } else if (state.loginStatus == LoginStatus.success) {
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => const AnnouncementsPage()));
+            MaterialPageRoute(
+              builder: (context) => HomeScreen(),
+            ),
+          );
         }
       }, builder: (context, state) {
-        return LoginWidget(isLoading: state.isLoading);
+        return const SignIn();
       }),
     );
   }

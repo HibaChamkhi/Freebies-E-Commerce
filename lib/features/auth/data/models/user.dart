@@ -1,19 +1,18 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
-part 'product.freezed.dart';
-part 'product.g.dart';
+part 'user.freezed.dart';
+part 'user.g.dart';
 
 @freezed
-abstract class ProductModel with _$ProductModel {
-  const factory ProductModel({
+abstract class UserModel with _$UserModel {
+  const factory UserModel({
     int? id,
-    required String createdAt,
-    required String name,
-    required String description,
-    required String price,
-    required String image,
-  }) = _ProductModel;
+    required String email,
+    required String password,
+    required String username,
+    String? profilePic,
+  }) = _UserModel;
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) =>
-      _$ProductModelFromJson(json);
+  factory UserModel.fromJson(Map<String, dynamic> json) =>
+      _$UserModelFromJson(json);
 }
