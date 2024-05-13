@@ -24,9 +24,8 @@ class AuthRemoteDataSourceImpl implements AuthDataSource {
   final supabase = Supabase.instance.client;
 
 
-  Future<String> uploadImage(File imageFile) async {
-    //i need to change this value
-    final userId = supabase.auth.currentUser?.id;
+  Future<String> uploadImage(File imageFile, String id) async {
+    final userId = id;
     try {
       final supabase = Supabase.instance.client;
       var res = await supabase.storage.from('user_image').upload('/$userId/profile', imageFile);
@@ -41,11 +40,12 @@ class AuthRemoteDataSourceImpl implements AuthDataSource {
   @override
   Future<Unit> signUpUser(UserModel user,File imageFile) async {
     try {
-      String imageUrl = await uploadImage(imageFile!);
-      await supabase.auth.signUp(email: user.email, password: user.password, data: {"username": user.username,"image":imageUrl});
+     var res = await supabase.auth.signUp(email: user.email, password: user.password, data: {"username": user.username,"image":""});
+      final String imageUrl = await uploadImage(imageFile!,res.user?.id ?? "");
+       await supabase.from('users').update({ "image":imageUrl }).eq('id', res.user?.id ?? "");
       return Future.value(unit);
     } catch (e) {
-      print('Error fetching products: $e');
+      print('Error fetching auth: $e');
       return Future.value(unit);
     }
   }

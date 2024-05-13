@@ -6,8 +6,8 @@ import 'package:freebies_e_commerce/features/products/presentation/widgets/produ
 import '../core/config/themes/app_theme.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
+  const HomeScreen({super.key, required this.isLoggedIn});
+final bool isLoggedIn ;
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
 
-            const FeaturedProductPage(),
+             FeaturedProductPage(isLoggedIn: widget.isLoggedIn,),
 
           ],
         ));

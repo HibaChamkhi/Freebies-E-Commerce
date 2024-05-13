@@ -89,8 +89,7 @@ class _RegisterInformationState extends State<RegisterInformation> {
             InkWell(
               onTap: () async {
                 final isValid = _formKey.currentState!.validate() ;
-                final supabase = Supabase.instance.client;
-
+                // final supabase = Supabase.instance.client;
                 if (isValid) {
                     final String email;
                     final String password;

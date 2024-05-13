@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 abstract class AppTheme {
+  static const String fontFamily = 'DMSans';
+
   static ThemeData get light {
     return ThemeData(
       appBarTheme: const AppBarTheme(
@@ -8,9 +10,9 @@ abstract class AppTheme {
         color: Colors.black,
       ),
       scaffoldBackgroundColor: Colors.white,
+      fontFamily: fontFamily,
       primaryColor: Colors.black,
       splashColor: Colors.transparent,
-      fontFamily: 'Hind',
     );
   }
 
@@ -23,7 +25,7 @@ abstract class AppTheme {
       scaffoldBackgroundColor: Colors.black,
       primaryColor: Colors.black,
       splashColor: Colors.transparent,
-      fontFamily: 'Hind',
+      fontFamily: fontFamily,
     );
   }
 }
@@ -31,3 +33,5 @@ abstract class AppTheme {
 
 const alabaster = Color(0xFFFAFAFA);
 const marinerApprox = Color(0xFF3669C9);
+// const bgGrey = Color(0xFFFAFAFA);
+const boxGrey = Color(0xFFEDEDED);
