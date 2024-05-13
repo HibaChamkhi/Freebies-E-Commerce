@@ -56,7 +56,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 50.0.w, vertical: 100.h),
+        padding: EdgeInsets.symmetric(horizontal: 30.0.w, vertical: 100.h),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,12 +89,12 @@ class _VerificationScreenState extends State<VerificationScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(4, (index) => _buildCodeTextField(index)),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(4, (index) => Text(_errors[index], style: TextStyle(color: Colors.red))),
             ),
-            SizedBox(height: 310),
+            SizedBox(height: 200.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

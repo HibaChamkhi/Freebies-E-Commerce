@@ -89,7 +89,7 @@ class _SignUpState extends State<SignUp> {
                       validator: (value) =>
                           validateEmail(emailController.text, ),
                     ),
-                    SizedBox(height: 350.h),
+                    SizedBox(height: 340.h),
                     // Add more form fields as needed
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

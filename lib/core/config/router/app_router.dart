@@ -14,7 +14,7 @@ class AppRouter {
     routes: [
     GoRoute(
     path: '/',
-    builder: (context, state) => supabase.auth.currentSession != null ? const HomeScreen() : const SignInPage(),
+    builder: (context, state) => HomeScreen(isLoggedIn: supabase.auth.currentSession != null ? true : false,) ,
   ),
 ]
   );

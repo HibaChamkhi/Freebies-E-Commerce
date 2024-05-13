@@ -30,11 +30,13 @@ class _SignInPageState extends State<SignInPage> {
         if (state.loginStatus == LoginStatus.loading) {
 
         } else if (state.loginStatus == LoginStatus.success) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => HomeScreen(),
-            ),
-          );
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => HomeScreen(isLoggedIn: true,),
+              ),
+            );
+          });
         }
       }, builder: (context, state) {
         return const SignIn();
