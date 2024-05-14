@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:freebies_e_commerce/features/products/data/models/category.dart';
 import 'package:freebies_e_commerce/features/products/data/models/product.dart';
 import 'package:injectable/injectable.dart';
 import 'package:multiple_result/multiple_result.dart';
@@ -20,12 +21,25 @@ class ProductRepositoryImpl extends BaseApiRepository implements ProductReposito
       );
 
   @override
-  Future<Either<Failure, List<ProductModel>>> getProducts() async {
+  Future<Either<Failure, List<ProductModel>>> getProducts(ProductFetchType fetchType,String? searchQuery) async {
     // if (await networkInfo.isConnected) {
       try {
-        final remoteUpdateProduct =
-        await _ProductDataSource.getProducts() ;
-        return Right(remoteUpdateProduct);
+        final remoteGetProducts =
+        await _ProductDataSource.getProducts(fetchType,searchQuery) ;
+        return Right(remoteGetProducts);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(message: e.message));
+      } on UnknownException catch (e) {
+        return Left(UnknownFailure(message: e.message));
+      }
+    }
+  @override
+  Future<Either<Failure, List<CategoryModel>>> getCategories() async {
+    // if (await networkInfo.isConnected) {
+      try {
+        final remoteGetCategories =
+        await _ProductDataSource.getCategories() ;
+        return Right(remoteGetCategories);
       } on ServerException catch (e) {
         return Left(ServerFailure(message: e.message));
       } on UnknownException catch (e) {

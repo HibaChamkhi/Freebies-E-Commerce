@@ -37,18 +37,26 @@ class AuthRemoteDataSourceImpl implements AuthDataSource {
     }
   }
 
+
   @override
-  Future<Unit> signUpUser(UserModel user,File imageFile) async {
+  Future<Unit> signUpUser(UserModel user, File imageFile) async {
     try {
-     var res = await supabase.auth.signUp(email: user.email, password: user.password, data: {"username": user.username,"image":""});
-      final String imageUrl = await uploadImage(imageFile!,res.user?.id ?? "");
-       await supabase.from('users').update({ "image":imageUrl }).eq('id', res.user?.id ?? "");
+      final AuthResponse res = await supabase.auth.signUp(email: user.email, password: user.password, data: {"username": user.username, "image": ""});
+      final String imageUrl = await uploadImage(imageFile!, res.user?.id ?? "");
+      final userUpdated = await supabase.auth.updateUser(
+        UserAttributes(
+          data:  {"image": imageUrl}
+        ),
+      );
+      print("User updated: $userUpdated");
       return Future.value(unit);
     } catch (e) {
-      print('Error fetching auth: $e');
+      print('Error during sign up: $e');
       return Future.value(unit);
     }
   }
+
+
 
   @override
   Future<Unit> signInUser(String email, String password) async {

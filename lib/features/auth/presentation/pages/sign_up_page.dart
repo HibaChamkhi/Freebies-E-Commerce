@@ -37,7 +37,7 @@ class _SignUpPageState extends State<SignUpPage> {
         if (state.registerStatus == RegisterStatus.loading) {
 
         } else if (state.registerStatus == RegisterStatus.success) {
-          Navigator.of(context).pushReplacement(
+          Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => VerificationScreen(emailOrPhone: widget.emailOrPhone,) ));
         }
       }, builder: (context, state) {

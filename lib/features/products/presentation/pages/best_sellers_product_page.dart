@@ -6,20 +6,20 @@ import 'package:freebies_e_commerce/features/products/presentation/bloc/product_
 import '../../../../core/config/injection/injection.dart';
 import '../widgets/product_box.dart';
 
-class FeaturedProductPage extends StatefulWidget {
-  const FeaturedProductPage({super.key, required this.isLoggedIn});
+class BestSellersProductPage extends StatefulWidget {
+  const BestSellersProductPage({super.key, required this.isLoggedIn});
   final bool isLoggedIn ;
 
   @override
-  State<FeaturedProductPage> createState() => _FeaturedProductPageState();
+  State<BestSellersProductPage> createState() => _BestSellersProductPageState();
 }
 
-class _FeaturedProductPageState extends State<FeaturedProductPage> {
+class _BestSellersProductPageState extends State<BestSellersProductPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt<ProductBloc>()
-        ..add(const GetAllProductsEvent())
+        ..add(const GetBestSellersEvent())
       ,
       child: _buildBody(),
     );
@@ -38,7 +38,7 @@ class _FeaturedProductPageState extends State<FeaturedProductPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Featured Product',
+                      'Best Sellers ',
                       style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
                     ),
                     Text(
@@ -53,11 +53,11 @@ class _FeaturedProductPageState extends State<FeaturedProductPage> {
                   height: 250,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: state.products.length,
+                    itemCount: state.bestSellers.length,
                     itemBuilder: (context, index) {
                       return Container(
                         margin: EdgeInsets.only(top: 20.0.h,bottom: 20.h,left: 20.w),
-                        child: ProductBox(product: state.products[index], isLoading: state.productsStatus == ProductsStatus.loading, isLoggedIn: widget.isLoggedIn,),
+                        child: ProductBox(product: state.bestSellers[index], isLoading: state.productsStatus == ProductsStatus.loading, isLoggedIn: widget.isLoggedIn,),
                       );
                     },
                   ),
