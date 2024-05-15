@@ -10,7 +10,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dio/dio.dart' as _i7;
 import 'package:freebies_e_commerce/core/config/injection/register_module.dart'
-    as _i19;
+    as _i20;
 import 'package:freebies_e_commerce/core/config/router/app_router.dart' as _i4;
 import 'package:freebies_e_commerce/features/auth/data/data_source/supabase_data_source.dart'
     as _i6;
@@ -25,7 +25,7 @@ import 'package:freebies_e_commerce/features/auth/domain/use_cases/sign_in_use_c
 import 'package:freebies_e_commerce/features/auth/domain/use_cases/sign_up_use_case.dart'
     as _i14;
 import 'package:freebies_e_commerce/features/auth/presentation/bloc/login_bloc/login_bloc.dart'
-    as _i17;
+    as _i19;
 import 'package:freebies_e_commerce/features/auth/presentation/bloc/register_bloc/register_bloc.dart'
     as _i15;
 import 'package:freebies_e_commerce/features/products/data/data_source/supabase_data_source.dart'
@@ -34,8 +34,10 @@ import 'package:freebies_e_commerce/features/products/data/repositories/product_
     as _i11;
 import 'package:freebies_e_commerce/features/products/domain/repositories/product_repository.dart'
     as _i10;
-import 'package:freebies_e_commerce/features/products/domain/use_cases/get_products_use_case.dart'
+import 'package:freebies_e_commerce/features/products/domain/use_cases/get_categories_use_case.dart'
     as _i16;
+import 'package:freebies_e_commerce/features/products/domain/use_cases/get_products_use_case.dart'
+    as _i17;
 import 'package:freebies_e_commerce/features/products/presentation/bloc/product_bloc.dart'
     as _i18;
 import 'package:get_it/get_it.dart' as _i1;
@@ -75,14 +77,18 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i14.SignUpUseCase(repository: gh<_i8.AuthRepository>()));
     gh.factory<_i15.RegisterBloc>(
         () => _i15.RegisterBloc(signUpUseCase: gh<_i14.SignUpUseCase>()));
-    gh.factory<_i16.GetProductsUseCase>(() =>
-        _i16.GetProductsUseCase(repository: gh<_i10.ProductRepository>()));
-    gh.factory<_i17.LoginBloc>(
-        () => _i17.LoginBloc(signInUseCase: gh<_i13.SignInUseCase>()));
-    gh.factory<_i18.ProductBloc>(() =>
-        _i18.ProductBloc(getProductsUseCase: gh<_i16.GetProductsUseCase>()));
+    gh.factory<_i16.GetCategoriesUseCase>(() =>
+        _i16.GetCategoriesUseCase(repository: gh<_i10.ProductRepository>()));
+    gh.factory<_i17.GetProductsUseCase>(() =>
+        _i17.GetProductsUseCase(repository: gh<_i10.ProductRepository>()));
+    gh.factory<_i18.ProductBloc>(() => _i18.ProductBloc(
+          getProductsUseCase: gh<_i17.GetProductsUseCase>(),
+          getCategoriesUseCase: gh<_i16.GetCategoriesUseCase>(),
+        ));
+    gh.factory<_i19.LoginBloc>(
+        () => _i19.LoginBloc(signInUseCase: gh<_i13.SignInUseCase>()));
     return this;
   }
 }
 
-class _$RegisterModule extends _i19.RegisterModule {}
+class _$RegisterModule extends _i20.RegisterModule {}

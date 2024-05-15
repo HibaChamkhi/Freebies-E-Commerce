@@ -6,20 +6,20 @@ import 'package:freebies_e_commerce/features/products/presentation/bloc/product_
 import '../../../../core/config/injection/injection.dart';
 import '../widgets/product_box.dart';
 
-class FeaturedProductPage extends StatefulWidget {
-  const FeaturedProductPage({super.key, required this.isLoggedIn});
+class ProductsWithSpecialOffersPage extends StatefulWidget {
+  const ProductsWithSpecialOffersPage({super.key, required this.isLoggedIn});
   final bool isLoggedIn ;
 
   @override
-  State<FeaturedProductPage> createState() => _FeaturedProductPageState();
+  State<ProductsWithSpecialOffersPage> createState() => _ProductsWithSpecialOffersPageState();
 }
 
-class _FeaturedProductPageState extends State<FeaturedProductPage> {
+class _ProductsWithSpecialOffersPageState extends State<ProductsWithSpecialOffersPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt<ProductBloc>()
-        ..add(const GetAllProductsEvent())
+        ..add(const GetProductsWithSpecialOffersEvent())
       ,
       child: _buildBody(),
     );
@@ -38,7 +38,7 @@ class _FeaturedProductPageState extends State<FeaturedProductPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Featured Product',
+                      'Special Offers',
                       style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
                     ),
                     Text(
@@ -53,11 +53,11 @@ class _FeaturedProductPageState extends State<FeaturedProductPage> {
                   height: 250,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: state.products.length,
+                    itemCount: state.productsWithSpecialOffers.length,
                     itemBuilder: (context, index) {
                       return Container(
                         margin: EdgeInsets.only(top: 20.0.h,bottom: 20.h,left: 20.w),
-                        child: ProductBox(product: state.products[index], isLoading: state.productsStatus == ProductsStatus.loading, isLoggedIn: widget.isLoggedIn,),
+                        child: ProductBox(product: state.productsWithSpecialOffers[index], isLoading: state.productsStatus == ProductsStatus.loading, isLoggedIn: widget.isLoggedIn,),
                       );
                     },
                   ),

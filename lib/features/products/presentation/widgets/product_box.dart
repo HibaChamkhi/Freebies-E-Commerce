@@ -7,6 +7,7 @@ import 'package:freebies_e_commerce/features/products/presentation/widgets/produ
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/config/themes/app_theme.dart';
+import '../../../../core/utils/widgets/login_popup.dart';
 
 class ProductBox extends StatefulWidget {
   final ProductModel product;
@@ -73,7 +74,7 @@ class _ProductBoxState extends State<ProductBox> {
                   : showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return dialogWidget(context);
+                        return loginPopupWidget(context);
                       },
                     );
             },
@@ -161,71 +162,4 @@ class _ProductBoxState extends State<ProductBox> {
             ),
           );
   }
-}
-
-Widget dialogWidget(context){
-  return AlertDialog(
-    backgroundColor: const Color(0xFFFFFFFF),
-    title: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const Text('Login Account'),
-        GestureDetector(
-          onTap: () {
-            Navigator.pop(context); // Close the dialog
-          },
-          child: const Icon(Icons.close),
-        ),
-      ],
-    ),
-    content: SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        // mainAxisSize: MainAxisSize.min,
-        children: [
-          Divider(),
-          SizedBox(height: 20.h,),
-          Image.asset("assets/images/login.png"),
-          Padding(
-            padding:  EdgeInsets.symmetric(vertical: 20.0.h),
-            child: const Text(
-              "You need to sign in first",
-              style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16),
-            ),
-          ),
-          const Text(
-              textAlign: TextAlign.center,
-              "Please login/register first to make a transaction",
-              style: TextStyle(
-                  color: Colors.grey, fontSize: 14)),
-        ],
-      ),
-    ),
-    actions: <Widget>[
-      InkWell(
-        child: Container(
-          alignment: Alignment.center,
-          width: 325,
-          height: 50,
-          decoration: BoxDecoration(
-              color: marinerApprox,
-              borderRadius: BorderRadius.circular(10)),
-          child: const Text(
-            'Login',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const SignIn()),
-          );
-        },
-      ),
-    ],
-  );
 }
