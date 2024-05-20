@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:freebies_e_commerce/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:freebies_e_commerce/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:freebies_e_commerce/features/auth/presentation/widgets/register_information.dart';
 import 'package:freebies_e_commerce/features/auth/presentation/widgets/sign_in.dart';
@@ -33,7 +34,7 @@ class _SignUpState extends State<SignUp> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SignIn()),
+                  MaterialPageRoute(builder: (context) => const SignInPage()),
                 );
               },
               child: const Row(

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:freebies_e_commerce/features/products/data/data_source/supabase_data_source.dart';
 import 'package:freebies_e_commerce/features/products/presentation/bloc/product_bloc.dart';
+import 'package:freebies_e_commerce/features/products/presentation/bloc/search/search_bloc.dart';
 import 'package:freebies_e_commerce/features/products/presentation/widgets/search_screen.dart';
 import '../../../../core/config/injection/injection.dart';
 import '../widgets/product_box.dart';
@@ -20,17 +21,18 @@ class _SearchProductPageState extends State<SearchProductPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<ProductBloc>(),
+      create: (_) => getIt<SearchBloc>()..add(GetSearchValueEvent()),
       child: _buildBody(),
     );
   }
 
   Widget _buildBody() {
-    return BlocConsumer<ProductBloc, ProductState>(
+    return BlocConsumer<SearchBloc, SearchState>(
         listener: (context, state) {},
         builder: (context, state) {
+          print("GetSearchValueEvent : ${state.searchValue}");
           return SearchScreen(searchProduct: (query) {
-            BlocProvider.of<ProductBloc>(context)
+            BlocProvider.of<SearchBloc>(context)
                 .add( SearchProductEvent(query: query));
           }, isLoggedIn: widget.isLoggedIn, state: state,);
         });

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,6 +6,7 @@ import 'package:freebies_e_commerce/features/products/data/data_source/supabase_
 import 'package:freebies_e_commerce/features/products/presentation/bloc/product_bloc.dart';
 import '../../../../core/config/injection/injection.dart';
 import '../widgets/product_box.dart';
+import '../widgets/see_all_product_widget.dart';
 
 class FeaturedProductPage extends StatefulWidget {
   const FeaturedProductPage({super.key, required this.isLoggedIn});
@@ -34,16 +36,25 @@ class _FeaturedProductPageState extends State<FeaturedProductPage> {
             children: [
               Padding(
                 padding:  EdgeInsets.symmetric(vertical: 10.h),
-                child: const Row(
+                child:  Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       'Featured Product',
                       style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
                     ),
-                    Text(
-                      'See All',
-                      style: TextStyle(fontSize: 14.0, color: Colors.blue),
+                    GestureDetector(
+                      onTap: (){
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) =>  SeeAllProduct(productsStatus: state.productsStatus, isLoggedIn: widget.isLoggedIn, title: 'Featured Product', products: state.products,)),
+                        );
+                      },
+                      child: Text(
+                        'See All',
+                        style: TextStyle(fontSize: 14.0, color: Colors.blue),
+                      ),
                     ),
                   ],
                 ),

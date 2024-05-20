@@ -9,6 +9,7 @@ class ProductState extends Equatable {
   final List<ProductModel> topRatedProducts;
   final List<CategoryModel> categories;
   final ProductsStatus productsStatus;
+  final SearchProductsByCategoryStatus searchProductsByCategoryStatus;
   final CategoriesStatus categoriesStatus;
   final String messages;
 
@@ -22,6 +23,7 @@ class ProductState extends Equatable {
         this.categories = const [],
         this.messages = "",
         this.productsStatus = ProductsStatus.loading,
+        this.searchProductsByCategoryStatus = SearchProductsByCategoryStatus.loading,
         this.categoriesStatus = CategoriesStatus.loading,
       });
 
@@ -33,6 +35,7 @@ class ProductState extends Equatable {
     List<ProductModel>? topRatedProducts,
     List<CategoryModel>? categories,
    ProductsStatus? productsStatus,
+    SearchProductsByCategoryStatus? searchProductsByCategoryStatus,
     CategoriesStatus? categoriesStatus,
    String? messages,
   }) {
@@ -46,6 +49,7 @@ class ProductState extends Equatable {
       messages: messages ?? this.messages,
       productsStatus: productsStatus ?? this.productsStatus,
       categoriesStatus: categoriesStatus ?? this.categoriesStatus,
+      searchProductsByCategoryStatus: searchProductsByCategoryStatus ?? this.searchProductsByCategoryStatus,
     );
   }
 
@@ -59,9 +63,11 @@ class ProductState extends Equatable {
     messages,
     categoriesStatus,
     productsWithSpecialOffers,
+    searchProductsByCategoryStatus,
     products
   ];
 }
 
 enum ProductsStatus {loading, success, error}
+enum SearchProductsByCategoryStatus {loading, success, error}
 enum CategoriesStatus {loading, success, error}

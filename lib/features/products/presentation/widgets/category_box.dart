@@ -1,14 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:freebies_e_commerce/features/auth/presentation/widgets/sign_in.dart';
-import 'package:freebies_e_commerce/features/products/data/models/category.dart';
-import 'package:freebies_e_commerce/features/products/data/models/product.dart';
-import 'package:freebies_e_commerce/features/products/presentation/widgets/product_details.dart';
-import 'package:freebies_e_commerce/features/products/presentation/widgets/search_category_screen.dart';
-import 'package:shimmer/shimmer.dart';
-import '../../../../core/config/themes/app_theme.dart';
+import 'package:freebies_e_commerce/features/products/data/models/category/category.dart';
 import '../../../../core/utils/widgets/login_popup.dart';
+import '../pages/search_by_category_page.dart';
 
 
 class CategoryBox extends StatefulWidget {
@@ -29,7 +24,7 @@ class _CategoryBoxState extends State<CategoryBox> {
             ? Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => SearchCategoryScreen(title: widget.category.name,
+              builder: (context) => SearchByCategoryPage(title: widget.category.name, id:widget.category.id.toString(), isLoggedIn:  widget.isLoggedIn,
               )),
         )
             : showDialog(

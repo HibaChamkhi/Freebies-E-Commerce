@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:freebies_e_commerce/features/auth/presentation/widgets/sign_in.dart';
-import 'package:freebies_e_commerce/features/products/data/models/product.dart';
 import 'package:freebies_e_commerce/features/products/presentation/widgets/product_details.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/config/themes/app_theme.dart';
 import '../../../../core/utils/widgets/login_popup.dart';
+import '../../data/models/product/product.dart';
 
 class ProductBox extends StatefulWidget {
   final ProductModel product;
@@ -142,7 +142,7 @@ class _ProductBoxState extends State<ProductBox> {
                               Icon(Icons.star,
                                   size: 10.0.sp, color: Colors.yellow),
                               Text(
-                                "4.5",
+                                widget.product.num_rating.toString(),
                                 style: TextStyle(fontSize: 10.0.sp),
                               ),
                             ],

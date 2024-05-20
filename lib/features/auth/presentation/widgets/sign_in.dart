@@ -8,8 +8,8 @@ import '../../../../core/utils/input_validator.dart';
 import '../bloc/login_bloc/login_bloc.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({Key? key}) : super(key: key);
-
+  const SignIn({Key? key, required this.loginContext}) : super(key: key);
+final BuildContext loginContext ;
   @override
   State<SignIn> createState() => _SignInState();
 }
@@ -99,7 +99,7 @@ class _SignInState extends State<SignIn> {
                                 email = emailController.text;
                                 password = passwordController.text;
 
-                                BlocProvider.of<LoginBloc>(context).add(LoginUserEvent(
+                                BlocProvider.of<LoginBloc>(widget.loginContext).add(LoginUserEvent(
                                   email: email,
                                   password: password,
                                 ));

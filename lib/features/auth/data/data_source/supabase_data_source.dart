@@ -42,6 +42,7 @@ class AuthRemoteDataSourceImpl implements AuthDataSource {
   Future<Unit> signUpUser(UserModel user, File imageFile) async {
     try {
       final AuthResponse res = await supabase.auth.signUp(email: user.email, password: user.password, data: {"username": user.username, "image": ""});
+      print(res);
       final String imageUrl = await uploadImage(imageFile!, res.user?.id ?? "");
       final userUpdated = await supabase.auth.updateUser(
         UserAttributes(
