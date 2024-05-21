@@ -1,16 +1,17 @@
 import 'package:dartz/dartz.dart';
 import 'package:freebies_e_commerce/features/products/data/models/category/category.dart';
+import 'package:freebies_e_commerce/features/products/data/models/search/search.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../core/utils/error/failures.dart';
 import '../repositories/product_repository.dart';
 
 @Injectable()
-class GetCategoriesUseCase {
+class DeleteSearchValueUseCase {
   final ProductRepository repository;
 
-  GetCategoriesUseCase({required this.repository});
+  DeleteSearchValueUseCase({required this.repository});
 
-  Future<Either<Failure, List<CategoryModel>>> call() async {
-    return await repository.getCategories();
+  Future<Either<Failure, Unit>> call(int id) async {
+    return await repository.deleteSearchValue(id);
   }
 }

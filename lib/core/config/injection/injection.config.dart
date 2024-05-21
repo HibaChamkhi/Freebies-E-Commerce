@@ -10,7 +10,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dio/dio.dart' as _i7;
 import 'package:freebies_e_commerce/core/config/injection/register_module.dart'
-    as _i20;
+    as _i25;
 import 'package:freebies_e_commerce/core/config/router/app_router.dart' as _i4;
 import 'package:freebies_e_commerce/features/auth/data/data_source/supabase_data_source.dart'
     as _i6;
@@ -25,7 +25,7 @@ import 'package:freebies_e_commerce/features/auth/domain/use_cases/sign_in_use_c
 import 'package:freebies_e_commerce/features/auth/domain/use_cases/sign_up_use_case.dart'
     as _i14;
 import 'package:freebies_e_commerce/features/auth/presentation/bloc/login_bloc/login_bloc.dart'
-    as _i19;
+    as _i22;
 import 'package:freebies_e_commerce/features/auth/presentation/bloc/register_bloc/register_bloc.dart'
     as _i15;
 import 'package:freebies_e_commerce/features/products/data/data_source/supabase_data_source.dart'
@@ -34,12 +34,22 @@ import 'package:freebies_e_commerce/features/products/data/repositories/product_
     as _i11;
 import 'package:freebies_e_commerce/features/products/domain/repositories/product_repository.dart'
     as _i10;
+import 'package:freebies_e_commerce/features/products/domain/use_cases/delete_search_value_use_case.dart'
+    as _i17;
 import 'package:freebies_e_commerce/features/products/domain/use_cases/get_categories_use_case.dart'
     as _i16;
 import 'package:freebies_e_commerce/features/products/domain/use_cases/get_products_use_case.dart'
-    as _i17;
-import 'package:freebies_e_commerce/features/products/presentation/bloc/product_bloc.dart'
     as _i18;
+import 'package:freebies_e_commerce/features/products/domain/use_cases/get_search_value_use_case.dart'
+    as _i20;
+import 'package:freebies_e_commerce/features/products/domain/use_cases/get_sub_categories_use_case.dart'
+    as _i21;
+import 'package:freebies_e_commerce/features/products/domain/use_cases/set_search_value_use_case.dart'
+    as _i19;
+import 'package:freebies_e_commerce/features/products/presentation/bloc/product_bloc.dart'
+    as _i23;
+import 'package:freebies_e_commerce/features/products/presentation/bloc/search/search_bloc.dart'
+    as _i24;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:shared_preferences/shared_preferences.dart' as _i3;
@@ -79,16 +89,32 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i15.RegisterBloc(signUpUseCase: gh<_i14.SignUpUseCase>()));
     gh.factory<_i16.GetCategoriesUseCase>(() =>
         _i16.GetCategoriesUseCase(repository: gh<_i10.ProductRepository>()));
-    gh.factory<_i17.GetProductsUseCase>(() =>
-        _i17.GetProductsUseCase(repository: gh<_i10.ProductRepository>()));
-    gh.factory<_i18.ProductBloc>(() => _i18.ProductBloc(
-          getProductsUseCase: gh<_i17.GetProductsUseCase>(),
+    gh.factory<_i17.DeleteSearchValueUseCase>(() =>
+        _i17.DeleteSearchValueUseCase(
+            repository: gh<_i10.ProductRepository>()));
+    gh.factory<_i18.GetProductsUseCase>(() =>
+        _i18.GetProductsUseCase(repository: gh<_i10.ProductRepository>()));
+    gh.factory<_i19.SetSearchValueUseCase>(() =>
+        _i19.SetSearchValueUseCase(repository: gh<_i10.ProductRepository>()));
+    gh.factory<_i20.GetSearchValueUseCase>(() =>
+        _i20.GetSearchValueUseCase(repository: gh<_i10.ProductRepository>()));
+    gh.factory<_i21.GetSubCategoriesUseCase>(() =>
+        _i21.GetSubCategoriesUseCase(repository: gh<_i10.ProductRepository>()));
+    gh.factory<_i22.LoginBloc>(
+        () => _i22.LoginBloc(signInUseCase: gh<_i13.SignInUseCase>()));
+    gh.factory<_i23.ProductBloc>(() => _i23.ProductBloc(
+          getProductsUseCase: gh<_i18.GetProductsUseCase>(),
           getCategoriesUseCase: gh<_i16.GetCategoriesUseCase>(),
+          getSubCategoriesUseCase: gh<_i21.GetSubCategoriesUseCase>(),
         ));
-    gh.factory<_i19.LoginBloc>(
-        () => _i19.LoginBloc(signInUseCase: gh<_i13.SignInUseCase>()));
+    gh.factory<_i24.SearchBloc>(() => _i24.SearchBloc(
+          getSearchValueUseCase: gh<_i20.GetSearchValueUseCase>(),
+          getProductsUseCase: gh<_i18.GetProductsUseCase>(),
+          deleteSearchValueUseCase: gh<_i17.DeleteSearchValueUseCase>(),
+          setSearchValueUseCase: gh<_i19.SetSearchValueUseCase>(),
+        ));
     return this;
   }
 }
 
-class _$RegisterModule extends _i20.RegisterModule {}
+class _$RegisterModule extends _i25.RegisterModule {}

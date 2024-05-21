@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:freebies_e_commerce/features/products/data/models/product.dart';
+
+import '../../data/models/product/product.dart';
 class ProductDetails extends StatefulWidget {
   const ProductDetails({super.key, required this.product});
 final ProductModel product ;

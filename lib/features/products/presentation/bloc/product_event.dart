@@ -39,12 +39,44 @@ class GetTopRatedProductsEvent extends ProductEvent {
   List<Object?> get props => [];
 }
 
-class SearchProductEvent extends ProductEvent {
-  final String query ;
-  const SearchProductEvent({required this.query,});
+class GetProductsByCategoryEvent extends ProductEvent {
+  final String id;
+  const GetProductsByCategoryEvent({required this.id});
 
   @override
-  List<Object?> get props => [query];
+  List<Object?> get props => [];
+}
+
+class GetProductSortTypeEvent extends ProductEvent {
+  final ProductSortType type;
+  final String id;
+  const GetProductSortTypeEvent( {required this.id,required this.type});
+
+  @override
+  List<Object?> get props => [id,type];
+}
+
+class GetFilteredProductEvent extends ProductEvent {
+  final List<int>? subcategoryIds;
+  final String id;
+  final double minPrice;
+  final   double maxPrice;
+  const GetFilteredProductEvent( {
+    required this.id,
+    required this.minPrice,
+    required this.maxPrice,
+    required this.subcategoryIds});
+  @override
+  List<Object?> get props => [subcategoryIds,id];
+}
+
+class SearchProductByCategoryEvent extends ProductEvent {
+  final String query ;
+  final String id ;
+  const SearchProductByCategoryEvent({required this.query,required this.id,});
+
+  @override
+  List<Object?> get props => [query,id];
 }
 
 class GetAllCategoriesEvent extends ProductEvent {
@@ -52,4 +84,11 @@ class GetAllCategoriesEvent extends ProductEvent {
 
   @override
   List<Object?> get props => [];
+}
+
+class GetSubCategoriesEvent extends ProductEvent {
+  final String categoryId ;
+  const GetSubCategoriesEvent({required this.categoryId,});
+  @override
+  List<Object?> get props => [categoryId];
 }

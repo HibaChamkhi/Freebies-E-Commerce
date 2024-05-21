@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:freebies_e_commerce/features/products/data/data_source/supabase_data_source.dart';
 import 'package:freebies_e_commerce/features/products/presentation/bloc/product_bloc.dart';
 import '../../../../core/config/injection/injection.dart';
+import '../../../../core/config/themes/app_theme.dart';
 import '../widgets/category_box.dart';
 import '../widgets/category_popup.dart';
 import '../widgets/product_box.dart';
@@ -29,6 +30,25 @@ class _CategoriesPageState extends State<CategoriesPage> {
   }
   Widget _buildBody() {
     return  BlocConsumer<ProductBloc, ProductState>(listener: (context, state) {
+      if (state.categoriesStatus == CategoriesStatus.error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(state.messages),
+          ),
+        );
+      }
+      else if (state.categoriesStatus == CategoriesStatus.loading) {
+        Center(
+          child: SizedBox(
+            height: 60.h,
+            child: const Center(
+              child: CircularProgressIndicator(
+                color: marinerApprox,
+              ),
+            ),
+          ),
+        );
+      }
       }, builder: (context, state) {
         return Container(
           // color: const Color(0xFFFAFAFA),

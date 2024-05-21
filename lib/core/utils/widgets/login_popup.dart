@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:freebies_e_commerce/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:freebies_e_commerce/features/auth/presentation/widgets/sign_in.dart';
 import '../../../../core/config/themes/app_theme.dart';
 import 'dialog_widget.dart';
@@ -41,7 +42,7 @@ Widget loginPopupWidget(context){
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const SignIn()),
+                MaterialPageRoute(builder: (context) => const SignInPage()),
               );
             },
           ),
