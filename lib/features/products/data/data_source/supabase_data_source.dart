@@ -7,7 +7,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:dio/dio.dart';
 
+import '../../../../core/utils/error/exception.dart';
 import '../models/category/category.dart';
+import '../models/sub_category/sub_category.dart';
 
 enum ProductFetchType {
   all,
@@ -15,7 +17,8 @@ enum ProductFetchType {
   productsWithSpecialOffers,
   bestSellers,
   topRated,
-  byCategory
+  byCategory,
+  // subCategories
 }
 
 enum ProductSortType {
@@ -30,10 +33,14 @@ abstract class ProductDataSource {
       ProductFetchType fetchType,
       String? searchQuery,
       String? categoryId,
-      String? subcategoryId,
-      ProductSortType? sortType);
+      List<int>? subcategoryIds,
+      ProductSortType? sortType,
+      double? minPrice, // Add this line for minimum price
+      double? maxPrice);
 
   Future<List<CategoryModel>> getCategories();
+
+  Future<List<SubCategoryModel>> getSubCategories(String categoryId);
 
   Future<List<SearchModel>> getSearchValue();
 
@@ -53,8 +60,10 @@ class RemoteDataSourceImpl implements ProductDataSource {
       ProductFetchType fetchType,
       String? searchQuery,
       String? categoryId,
-      String? subcategoryId,
-      ProductSortType? sortType) async {
+      List<int>? subcategoryIds,
+      ProductSortType? sortType,
+      double? minPrice,
+      double? maxPrice) async {
     try {
       List<Map<String, dynamic>> response;
 
@@ -111,17 +120,58 @@ class RemoteDataSourceImpl implements ProductDataSource {
           }
           break;
       }
-      print("sortType $sortType");
+
+      if (minPrice != null && maxPrice != null) {
+        if (searchQuery != null && searchQuery.isNotEmpty) {
+          response = await supabase
+              .from('products')
+              .select('*')
+              .eq('category_id', categoryId ?? "")
+              .ilike('name', '%$searchQuery%')
+              .gte('price', minPrice) // Add this line for minimum price
+              .lte('price', maxPrice); // Add this line for maximum price
+        } else {
+          response = await supabase
+              .from('products')
+              .select('*')
+              .eq('category_id', categoryId ?? "")
+              .gte('price', minPrice) // Add this line for minimum price
+              .lte('price', maxPrice);
+        }
+      }
+
+      if (subcategoryIds != null && subcategoryIds.isNotEmpty) {
+        if (searchQuery != null && searchQuery.isNotEmpty) {
+          response = await supabase
+              .from('products')
+              .select('*')
+              .filter('subcategory_id', 'in', subcategoryIds)
+              .ilike('name', '%$searchQuery%');
+          // .gte('price', minPrice!) // Add this line for minimum price
+          // .lte('price', maxPrice!); // Add this line for maximum price
+        } else {
+          print(minPrice);
+          print(maxPrice);
+          print(categoryId);
+          response = await supabase
+              .from('products')
+              .select('*')
+              .filter('subcategory_id', 'in', subcategoryIds);
+          // .gte('price', minPrice!) // Add this line for minimum price
+          // .lte('price', maxPrice!); // Add this line for maximum price
+        }
+      }
+
       // Apply sorting
       if (sortType != null) {
         switch (sortType) {
           case ProductSortType.nameAsc:
             response.sort((a, b) => a['name'].compareTo(b['name']));
-            print("response nameAsc $response") ;
+            print("response nameAsc $response");
             break;
           case ProductSortType.nameDesc:
             response.sort((a, b) => b['name'].compareTo(a['name']));
-            print("response nameDesc $response") ;
+            print("response nameDesc $response");
 
             break;
           case ProductSortType.priceHighToLow:
@@ -132,17 +182,12 @@ class RemoteDataSourceImpl implements ProductDataSource {
             break;
         }
       }
-
-      print("response $response");
-
       var products = response
           .map((productData) => ProductModel.fromJson(productData))
           .toList();
-      print("products $products");
-
       return products;
     } catch (e) {
-      print('Error fetching products: $e');
+      ServerException(message: e.toString());
       return [];
     }
   }
@@ -161,7 +206,27 @@ class RemoteDataSourceImpl implements ProductDataSource {
       return products;
     } catch (e) {
       print('Error fetching categories: $e');
-      return [];
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<List<SubCategoryModel>> getSubCategories(String categoryId) async {
+    try {
+      List<Map<String, dynamic>> response = await supabase
+          .from('sub_categories')
+          .select('*')
+          .eq('category_id', categoryId);
+      print("sub_categories response $response");
+      var products = response
+          .map((categoryData) => SubCategoryModel.fromJson(categoryData))
+          .toList();
+      print(
+          "sub_categories ${response.map((categoryData) => SubCategoryModel.fromJson(categoryData)).toList()}");
+      return products;
+    } catch (e) {
+      print('Error fetching sub_categories: $e');
+      throw ServerException(message: e.toString());
     }
   }
 
@@ -186,7 +251,7 @@ class RemoteDataSourceImpl implements ProductDataSource {
       }
     } catch (e) {
       print('Error inserting data: $e');
-      return unit;
+      throw ServerException(message: e.toString());
     }
   }
 
@@ -210,7 +275,7 @@ class RemoteDataSourceImpl implements ProductDataSource {
       }
     } catch (e) {
       print('Error fetching categories: $e');
-      return [];
+      throw ServerException(message: e.toString());
     }
   }
 
@@ -239,7 +304,7 @@ class RemoteDataSourceImpl implements ProductDataSource {
       }
     } catch (e) {
       print('Error deleting search value: $e');
-      return unit;
+      throw ServerException(message: e.toString());
     }
   }
 }

@@ -17,8 +17,10 @@ class GetProductsUseCase {
       ProductFetchType fetchType,
       String? searchQuery,
       String? categoryId,
-      String? subcategoryId,
-      ProductSortType? sortType)  async {
-    return await repository.getProducts(fetchType,searchQuery,categoryId,subcategoryId,sortType);
+      List<int>? subcategoryIds,
+      ProductSortType? sortType,
+      double? minPrice,
+      double? maxPrice)  async {
+    return await repository.getProducts(fetchType,searchQuery,categoryId,subcategoryIds,sortType,minPrice,maxPrice);
   }
 }

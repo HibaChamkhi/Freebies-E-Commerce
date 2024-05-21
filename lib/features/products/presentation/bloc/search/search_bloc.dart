@@ -36,7 +36,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       if (event is SearchProductEvent) {
         emit(state.copyWith(searchProductsStatus: SearchProductsStatus.loading, products: []));
 
-        final failureOrSuggestedProducts = await getProductsUseCase(ProductFetchType.all,event.query,null,null,null);
+        final failureOrSuggestedProducts = await getProductsUseCase(ProductFetchType.all,event.query,null,null,null,null,null);
         failureOrSuggestedProducts.fold(
                 (suggestedOrFailure) => emit(state.copyWith(
               messages: mapFailureToMessage(suggestedOrFailure),

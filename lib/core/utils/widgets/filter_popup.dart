@@ -1,14 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:freebies_e_commerce/features/products/data/models/sub_category/sub_category.dart';
 import '../../../features/products/data/data_source/supabase_data_source.dart';
 import '../../config/themes/app_theme.dart';
 import 'dialog_widget.dart';
 
 class FilterPopupWidget extends StatefulWidget {
   final BuildContext context;
+  final List<SubCategoryModel> subCategories;
   final Function(ProductSortType) sortFunction;
-  const FilterPopupWidget({super.key, required this.context, required this.sortFunction});
+  final Function(List<int>,double,double) filterFunction;
+
+  const FilterPopupWidget({
+    super.key,
+    required this.context,
+    required this.sortFunction,
+    required this.subCategories,
+    required this.filterFunction,
+  });
 
   @override
   State<FilterPopupWidget> createState() => _FilterPopupWidgetState();
@@ -17,10 +27,30 @@ class FilterPopupWidget extends StatefulWidget {
 class _FilterPopupWidgetState extends State<FilterPopupWidget> {
   int _selectedSortIndex = -1;
   bool isFiltering = true;
-  bool isAllChecked = false;
+  bool isChecked = false;
   List<String> selectedFilters = [];
-  RangeValues selectedRange = const RangeValues(0, 100);
+  RangeValues selectedRange = const RangeValues(0, 1000);
   ProductSortType? _selectedSortType;
+  late List<int> checkedItems;
+
+  @override
+  void initState() {
+    super.initState();
+    checkedItems = [];
+  }
+
+  void _toggleChecked(int id, bool? value) {
+    setState(() {
+      if (value == true) {
+        // If the checkbox is checked, add the ID to checkedItems
+        checkedItems.add(id);
+      } else {
+        // If the checkbox is unchecked, remove the ID from checkedItems
+        checkedItems.remove(id);
+      }
+      print(checkedItems);
+    });
+  }
 
   void _onItemTap(int index, ProductSortType type) {
     setState(() {
@@ -32,12 +62,6 @@ class _FilterPopupWidgetState extends State<FilterPopupWidget> {
   void _toggleFilterState() {
     setState(() {
       isFiltering = !isFiltering;
-    });
-  }
-
-  void _toggleAllChecked(bool? value) {
-    setState(() {
-      isAllChecked = value!;
     });
   }
 
@@ -102,41 +126,60 @@ class _FilterPopupWidgetState extends State<FilterPopupWidget> {
           RangeSlider(
             values: selectedRange,
             min: 0,
-            max: 100,
+            max: 1000,
             onChanged: (RangeValues values) {
               setState(() {
                 selectedRange = values;
               });
             },
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(selectedRange.start.toStringAsFixed(2)),
+              Text(selectedRange.end.toStringAsFixed(2)),
+            ],
+          ),
           const Divider(),
-          _buildFilterCheckbox('All Sub Categories', isAllChecked, _toggleAllChecked),
-          const Divider(),
-          _buildFilterCheckbox('Cellphone', isAllChecked, _toggleAllChecked),
-          const Divider(),
-          _buildFilterCheckbox('Computer', isAllChecked, _toggleAllChecked),
-          const Divider(),
-          _buildFilterCheckbox('Laptop', isAllChecked, _toggleAllChecked),
+          const SizedBox(height: 16.0),
+
+          const Text(
+            "All Sub Categories :",
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          widget.subCategories.isNotEmpty
+          ?
+          Flexible(
+            child: ListView(
+              shrinkWrap: true,
+              children: widget.subCategories.map((subCategory) {
+                return Column(
+                  children: [
+                    CheckboxListTile(
+                      title: Text(subCategory.name),
+                      value: checkedItems.contains(subCategory.id),
+                      onChanged: (bool? value) {
+                        _toggleChecked(subCategory.id, value);
+                      },
+                    ),
+                    const Divider(),
+                  ],
+                );
+              }).toList(),
+            ),
+          )
+          :
+          Center(child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 20) ,
+              child: const Text("Not Sub Category yet...")))
+          ,
           const SizedBox(height: 16.0),
           _buildActionButtons(),
         ],
       ),
-    );
-  }
-
-  Widget _buildFilterCheckbox(String title, bool value, Function(bool?) onChanged) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(fontSize: 16),
-        ),
-        Checkbox(
-          value: value,
-          onChanged: onChanged,
-        ),
-      ],
     );
   }
 
@@ -151,9 +194,11 @@ class _FilterPopupWidgetState extends State<FilterPopupWidget> {
           const Divider(),
           _buildSortOption('Name (Z-A)', 1, ProductSortType.nameDesc),
           const Divider(),
-          _buildSortOption('Price (High-Low)', 2, ProductSortType.priceHighToLow),
+          _buildSortOption(
+              'Price (High-Low)', 2, ProductSortType.priceHighToLow),
           const Divider(),
-          _buildSortOption('Price (Low-High)', 3, ProductSortType.priceLowToHigh),
+          _buildSortOption(
+              'Price (Low-High)', 3, ProductSortType.priceLowToHigh),
           SizedBox(height: 20.h),
           _buildActionButtons(),
         ],
@@ -191,27 +236,31 @@ class _FilterPopupWidgetState extends State<FilterPopupWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _buildActionButton('Cancel', Colors.black, Colors.transparent, Colors.black, () {
+        _buildActionButton(
+            'Cancel', Colors.black, Colors.transparent, Colors.black, () {
           setState(() {
             selectedFilters.clear();
-            selectedRange = const RangeValues(0, 100);
-            isAllChecked = false;
+            selectedRange = const RangeValues(0, 1000);
+            isChecked = false;
+            // checkedItems.updateAll((key, value) => false);
             _selectedSortIndex = -1;
             _selectedSortType = null;
           });
         }),
-        _buildActionButton('Apply', Colors.white, marinerApprox, Colors.white, () {
+        _buildActionButton('Apply', Colors.white, marinerApprox, Colors.white,
+            () {
           if (_selectedSortType != null) {
             widget.sortFunction(_selectedSortType!);
-            print('Selected Sort Type: $_selectedSortType');
           }
+          widget.filterFunction(checkedItems,selectedRange.start,selectedRange.end);
           Navigator.pop(context);
         }),
       ],
     );
   }
 
-  Widget _buildActionButton(String text, Color textColor, Color bgColor, Color borderColor, VoidCallback onTap) {
+  Widget _buildActionButton(String text, Color textColor, Color bgColor,
+      Color borderColor, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(

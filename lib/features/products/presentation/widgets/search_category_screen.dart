@@ -15,7 +15,9 @@ class SearchCategoryScreen extends StatefulWidget {
     required this.title,
     required this.state,
     required this.isLoggedIn,
-    required this.searchProduct, required this.sortFunction,
+    required this.searchProduct,
+    required this.sortFunction,
+    required this.filterFunction,
   });
 
   final ProductState state;
@@ -23,6 +25,7 @@ class SearchCategoryScreen extends StatefulWidget {
   final bool isLoggedIn;
   final Function(String) searchProduct;
   final Function(ProductSortType) sortFunction;
+  final Function(List<int>,double,double) filterFunction;
 
   @override
   State<SearchCategoryScreen> createState() => _SearchCategoryScreenState();
@@ -35,14 +38,20 @@ class _SearchCategoryScreenState extends State<SearchCategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: GestureDetector(
+      bottomNavigationBar:
+      GestureDetector(
         onTap: (){
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return FilterPopupWidget( context: context, sortFunction: (type) {
+              return FilterPopupWidget( context: context,
+                sortFunction: (type) {
                 widget.sortFunction(type);
-              },);
+              },
+                subCategories:widget.state.subCategories,
+                filterFunction: (list,min,max) {
+                  widget.filterFunction(list,min,max);
+                },);
             },
           );
         },

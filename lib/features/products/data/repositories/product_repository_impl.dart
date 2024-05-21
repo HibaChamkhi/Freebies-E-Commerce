@@ -11,6 +11,7 @@ import '../../../../core/utils/error/failures.dart';
 import '../../domain/repositories/product_repository.dart';
 import '../data_source/supabase_data_source.dart';
 import '../models/product/product.dart';
+import '../models/sub_category/sub_category.dart';
 
 
 @Injectable(as: ProductRepository)
@@ -26,12 +27,14 @@ class ProductRepositoryImpl extends BaseApiRepository implements ProductReposito
       ProductFetchType fetchType,
       String? searchQuery,
       String? categoryId,
-      String? subcategoryId,
-      ProductSortType? sortType)  async {
+      List<int>? subcategoryIds,
+      ProductSortType? sortType,
+      double? minPrice,
+      double? maxPrice)  async {
     // if (await networkInfo.isConnected) {
       try {
         final remoteGetProducts =
-        await _ProductDataSource.getProducts(fetchType,searchQuery,categoryId,searchQuery,sortType) ;
+        await _ProductDataSource.getProducts(fetchType,searchQuery,categoryId,subcategoryIds,sortType,minPrice,maxPrice) ;
         return Right(remoteGetProducts);
       } on ServerException catch (e) {
         return Left(ServerFailure(message: e.message));
@@ -46,6 +49,19 @@ class ProductRepositoryImpl extends BaseApiRepository implements ProductReposito
         final remoteGetCategories =
         await _ProductDataSource.getCategories() ;
         return Right(remoteGetCategories);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(message: e.message));
+      } on UnknownException catch (e) {
+        return Left(UnknownFailure(message: e.message));
+      }
+    }
+  @override
+  Future<Either<Failure, List<SubCategoryModel>>> getSubCategories(String categoryId) async {
+    // if (await networkInfo.isConnected) {
+      try {
+        final remoteGetSubCategories =
+        await _ProductDataSource.getSubCategories(categoryId) ;
+        return Right(remoteGetSubCategories);
       } on ServerException catch (e) {
         return Left(ServerFailure(message: e.message));
       } on UnknownException catch (e) {

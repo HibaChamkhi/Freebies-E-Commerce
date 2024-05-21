@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:freebies_e_commerce/features/auth/presentation/bloc/register_bloc/register_bloc.dart';
 import 'package:freebies_e_commerce/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:freebies_e_commerce/features/auth/presentation/widgets/register_information.dart';
 import 'package:freebies_e_commerce/features/auth/presentation/widgets/sign_in.dart';
 import 'package:freebies_e_commerce/features/home.dart';
 import '../../../../core/config/injection/injection.dart';
+import '../../../../core/config/themes/app_theme.dart';
 import '../bloc/login_bloc/login_bloc.dart';
 import '../widgets/sign_up.dart';
 import '../widgets/verification_screen.dart';
@@ -34,9 +36,26 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _buildBody() {
     return Center(
       child: BlocConsumer<RegisterBloc, RegisterState>(listener: (context, state) {
-        if (state.registerStatus == RegisterStatus.loading) {
-
-        } else if (state.registerStatus == RegisterStatus.success) {
+        if (state.registerStatus == RegisterStatus.error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.messages),
+            ),
+          );
+        }
+        else if (state.registerStatus == RegisterStatus.loading) {
+          Center(
+            child: SizedBox(
+              height: 60.h,
+              child: const Center(
+                child: CircularProgressIndicator(
+                  color: marinerApprox,
+                ),
+              ),
+            ),
+          );
+        }
+        else if (state.registerStatus == RegisterStatus.success) {
           Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => VerificationScreen(emailOrPhone: widget.emailOrPhone,) ));
         }

@@ -24,7 +24,7 @@ mixin _$ProductModel {
   String get createdAt => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  String get price => throw _privateConstructorUsedError;
+  double get price => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   int get num_rating => throw _privateConstructorUsedError;
   int? get discount => throw _privateConstructorUsedError;
@@ -46,7 +46,7 @@ abstract class $ProductModelCopyWith<$Res> {
       String createdAt,
       String name,
       String description,
-      String price,
+      double price,
       String image,
       int num_rating,
       int? discount});
@@ -94,7 +94,7 @@ class _$ProductModelCopyWithImpl<$Res, $Val extends ProductModel>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -124,7 +124,7 @@ abstract class _$$ProductModelImplCopyWith<$Res>
       String createdAt,
       String name,
       String description,
-      String price,
+      double price,
       String image,
       int num_rating,
       int? discount});
@@ -170,7 +170,7 @@ class __$$ProductModelImplCopyWithImpl<$Res>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -212,7 +212,7 @@ class _$ProductModelImpl implements _ProductModel {
   @override
   final String description;
   @override
-  final String price;
+  final double price;
   @override
   final String image;
   @override
@@ -269,7 +269,7 @@ abstract class _ProductModel implements ProductModel {
       required final String createdAt,
       required final String name,
       required final String description,
-      required final String price,
+      required final double price,
       required final String image,
       required final int num_rating,
       final int? discount}) = _$ProductModelImpl;
@@ -286,7 +286,7 @@ abstract class _ProductModel implements ProductModel {
   @override
   String get description;
   @override
-  String get price;
+  double get price;
   @override
   String get image;
   @override

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:freebies_e_commerce/features/products/data/data_source/supabase_data_source.dart';
 import 'package:freebies_e_commerce/features/products/presentation/bloc/product_bloc.dart';
 import '../../../../core/config/injection/injection.dart';
+import '../../../../core/config/themes/app_theme.dart';
 import '../widgets/product_box.dart';
 import '../widgets/see_all_product_widget.dart';
 
@@ -27,6 +28,25 @@ class _TopRatedProductPageState extends State<TopRatedProductPage> {
   }
   Widget _buildBody() {
     return  BlocConsumer<ProductBloc, ProductState>(listener: (context, state) {
+      if (state.productsStatus == ProductsStatus.error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(state.messages),
+          ),
+        );
+      }
+      else if (state.productsStatus == ProductsStatus.loading) {
+        Center(
+          child: SizedBox(
+            height: 60.h,
+            child: const Center(
+              child: CircularProgressIndicator(
+                color: marinerApprox,
+              ),
+            ),
+          ),
+        );
+      }
       }, builder: (context, state) {
         return Container(
           height: 350.h,

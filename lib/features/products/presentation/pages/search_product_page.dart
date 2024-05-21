@@ -6,6 +6,7 @@ import 'package:freebies_e_commerce/features/products/presentation/bloc/product_
 import 'package:freebies_e_commerce/features/products/presentation/bloc/search/search_bloc.dart';
 import 'package:freebies_e_commerce/features/products/presentation/widgets/search_screen.dart';
 import '../../../../core/config/injection/injection.dart';
+import '../../../../core/config/themes/app_theme.dart';
 import '../widgets/product_box.dart';
 
 class SearchProductPage extends StatefulWidget {
@@ -28,7 +29,27 @@ class _SearchProductPageState extends State<SearchProductPage> {
 
   Widget _buildBody() {
     return BlocConsumer<SearchBloc, SearchState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state.searchProductsStatus == SearchProductsStatus.error) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.messages),
+              ),
+            );
+          }
+          else if (state.searchProductsStatus == SearchProductsStatus.loading) {
+            Center(
+              child: SizedBox(
+                height: 60.h,
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    color: marinerApprox,
+                  ),
+                ),
+              ),
+            );
+          }
+        },
         builder: (context, state) {
           print("GetSearchValueEvent : ${state.searchValue}");
           return SearchScreen(searchProduct: (query) {

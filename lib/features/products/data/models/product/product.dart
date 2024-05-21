@@ -10,7 +10,7 @@ abstract class ProductModel with _$ProductModel {
     required String createdAt,
     required String name,
     required String description,
-    required String price,
+    required double price,
     required String image,
     required int num_rating,
     int? discount,
