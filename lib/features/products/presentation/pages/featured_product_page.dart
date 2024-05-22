@@ -49,7 +49,7 @@ class _FeaturedProductPageState extends State<FeaturedProductPage> {
         );
       }
       }, builder: (context, state) {
-        return Container(
+        return state.products.isEmpty ? Container() : Container(
           height: 350.h,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

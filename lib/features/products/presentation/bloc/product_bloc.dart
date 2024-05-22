@@ -42,7 +42,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             )),
                 (products)
             {
-              print(products);
               emit(state.copyWith(
                   productsStatus: ProductsStatus.success,
                   products: products));
@@ -172,7 +171,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
               productsStatus: ProductsStatus.error,
             )),
                 (products) {
-                  print("productsss $products");
                   emit(state.copyWith(
                       productsStatus: ProductsStatus.success, products: products));
                 }
@@ -188,7 +186,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
               productsStatus: ProductsStatus.error,
             )),
                 (products) {
-              print("productsss $products");
               emit(state.copyWith(
                   productsStatus: ProductsStatus.success, products: products));
             }

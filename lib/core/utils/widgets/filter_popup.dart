@@ -48,7 +48,6 @@ class _FilterPopupWidgetState extends State<FilterPopupWidget> {
         // If the checkbox is unchecked, remove the ID from checkedItems
         checkedItems.remove(id);
       }
-      print(checkedItems);
     });
   }
 

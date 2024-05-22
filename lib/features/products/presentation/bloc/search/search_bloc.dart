@@ -44,7 +44,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             )),
                 (products)
             {
-              print(products);
               emit(state.copyWith(
                   searchProductsStatus: SearchProductsStatus.success,
                   products: products));

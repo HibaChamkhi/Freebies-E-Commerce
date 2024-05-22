@@ -14,44 +14,48 @@ import '../data_source/supabase_data_source.dart';
 
 @Injectable(as: AuthRepository)
 class AuthRepositoryImpl extends BaseApiRepository implements AuthRepository {
-  final AuthDataSource _AuthDataSource;
-  // final NetworkInfo networkInfo;
-  AuthRepositoryImpl(this._AuthDataSource,
-      // this.networkInfo
+  final AuthDataSource _authDataSource;
+  final NetworkInfo networkInfo;
+  AuthRepositoryImpl(this._authDataSource,
+      this.networkInfo
       );
 
   @override
   Future<Either<Failure,Unit>> signUpUser(UserModel user,File imageFile) async {
-    // if (await networkInfo.isConnected) {
+    if (await networkInfo.isConnected) {
       try {
         final remoteUpdateAuth =
-        await _AuthDataSource.signUpUser(user, imageFile) ;
+        await _authDataSource.signUpUser(user, imageFile);
         return Right(remoteUpdateAuth);
       } on ServerException catch (e) {
         return Left(ServerFailure(message: e.message));
       } on UnknownException catch (e) {
         return Left(UnknownFailure(message: e.message));
       }
+    } else {
+      return Left(OfflineFailure());
     }
-
+  }
   Future<Either<Failure,Unit>> signInUser(String email, String password) async {
-    // if (await networkInfo.isConnected) {
+    if (await networkInfo.isConnected) {
       try {
         final remoteUpdateAuth =
-        await _AuthDataSource.signInUser(email, password) ;
+        await _authDataSource.signInUser(email, password) ;
         return Right(remoteUpdateAuth);
       } on ServerException catch (e) {
         return Left(ServerFailure(message: e.message));
       } on UnknownException catch (e) {
         return Left(UnknownFailure(message: e.message));
       }
+    }else {
+      return Left(OfflineFailure());
     }
-
+  }
   Future<Either<Failure,Unit>> logOut() async {
-    // if (await networkInfo.isConnected) {
+    if (await networkInfo.isConnected) {
       try {
         final remoteUpdateAuth =
-        await _AuthDataSource.logOut() ;
+        await _authDataSource.logOut() ;
         return Right(remoteUpdateAuth);
       } on ServerException catch (e) {
         return Left(ServerFailure(message: e.message));
@@ -59,9 +63,9 @@ class AuthRepositoryImpl extends BaseApiRepository implements AuthRepository {
         return Left(UnknownFailure(message: e.message));
       }
     }
-    // else {
-    //   return Left(OfflineFailure());
-    // }
-  // }
+    else {
+      return Left(OfflineFailure());
+    }
+  }
   
 }

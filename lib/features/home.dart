@@ -13,6 +13,8 @@ import 'package:freebies_e_commerce/features/products/presentation/widgets/produ
 import 'package:freebies_e_commerce/features/products/presentation/widgets/search_screen.dart';
 
 import '../core/config/themes/app_theme.dart';
+import 'news/presentation/pages/home_news_page.dart';
+import 'news/presentation/widgets/news.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.isLoggedIn});
@@ -120,6 +122,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
+              Container(
+                  padding: EdgeInsets.symmetric(horizontal: 30.w,vertical: 30.h),
+                  child: HomeNewsPage(isLoggedIn: widget.isLoggedIn,))
             ],
           ),
         ));
