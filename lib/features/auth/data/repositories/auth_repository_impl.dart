@@ -11,21 +11,20 @@ import '../../../../core/utils/error/failures.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../data_source/supabase_data_source.dart';
 
-
 @Injectable(as: AuthRepository)
 class AuthRepositoryImpl extends BaseApiRepository implements AuthRepository {
   final AuthDataSource _authDataSource;
   final NetworkInfo networkInfo;
-  AuthRepositoryImpl(this._authDataSource,
-      this.networkInfo
-      );
+
+  AuthRepositoryImpl(this._authDataSource, this.networkInfo);
 
   @override
-  Future<Either<Failure,Unit>> signUpUser(UserModel user,File imageFile) async {
+  Future<Either<Failure, Unit>> signUpUser(
+      UserModel user, File imageFile) async {
     if (await networkInfo.isConnected) {
       try {
         final remoteUpdateAuth =
-        await _authDataSource.signUpUser(user, imageFile);
+            await _authDataSource.signUpUser(user, imageFile);
         return Right(remoteUpdateAuth);
       } on ServerException catch (e) {
         return Left(ServerFailure(message: e.message));
@@ -36,36 +35,36 @@ class AuthRepositoryImpl extends BaseApiRepository implements AuthRepository {
       return Left(OfflineFailure());
     }
   }
-  Future<Either<Failure,Unit>> signInUser(String email, String password) async {
+
+  Future<Either<Failure, Unit>> signInUser(
+      String email, String password) async {
     if (await networkInfo.isConnected) {
       try {
         final remoteUpdateAuth =
-        await _authDataSource.signInUser(email, password) ;
+            await _authDataSource.signInUser(email, password);
         return Right(remoteUpdateAuth);
       } on ServerException catch (e) {
         return Left(ServerFailure(message: e.message));
       } on UnknownException catch (e) {
         return Left(UnknownFailure(message: e.message));
       }
-    }else {
+    } else {
       return Left(OfflineFailure());
     }
   }
-  Future<Either<Failure,Unit>> logOut() async {
+
+  Future<Either<Failure, Unit>> logOut() async {
     if (await networkInfo.isConnected) {
       try {
-        final remoteUpdateAuth =
-        await _authDataSource.logOut() ;
+        final remoteUpdateAuth = await _authDataSource.logOut();
         return Right(remoteUpdateAuth);
       } on ServerException catch (e) {
         return Left(ServerFailure(message: e.message));
       } on UnknownException catch (e) {
         return Left(UnknownFailure(message: e.message));
       }
-    }
-    else {
+    } else {
       return Left(OfflineFailure());
     }
   }
-  
 }

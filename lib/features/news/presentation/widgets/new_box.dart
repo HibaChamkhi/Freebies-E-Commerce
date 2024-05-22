@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/utils/widgets/login_popup.dart';
 import '../../data/models/news.dart';
 import '../bloc/news_bloc.dart';
 import 'news_detail.dart';
 
 class NewBox extends StatefulWidget {
-  const NewBox({super.key, required this.newsModel});
+  const NewBox({super.key, required this.newsModel, required this.isLoggedIn});
 
   final NewsModel newsModel;
+  final bool isLoggedIn;
 
   @override
   State<NewBox> createState() => _NewBoxState();
@@ -18,12 +20,22 @@ class _NewBoxState extends State<NewBox> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => NewsDetails(news: widget.newsModel,) ),
-        );
+      onTap: () {
+        widget.isLoggedIn
+            ? Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => NewsDetails(
+                          news: widget.newsModel,
+                        )),
+              )
+            : showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return loginPopupWidget(context);
+                },
+              );
+        ;
       },
       child: Container(
         // height: 100,
@@ -36,9 +48,16 @@ class _NewBoxState extends State<NewBox> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(width: 250, child: Text(widget.newsModel.title,style: TextStyle(fontWeight: FontWeight.bold),)),
                 SizedBox(
-                  width: 250,
+                    width: 250.w,
+                    child: Text(
+                      widget.newsModel.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                SizedBox(
+                  width: 250.w,
                   child: Text(
                     widget.newsModel.description,
                     maxLines: 1,
@@ -49,7 +68,7 @@ class _NewBoxState extends State<NewBox> {
               ],
             ),
             Container(
-              margin: EdgeInsets.only(left: 10),
+              margin: EdgeInsets.only(left: 10.w),
               width: 80.w,
               height: 80.w,
               decoration: BoxDecoration(

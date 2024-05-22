@@ -14,23 +14,27 @@ import '../data_source/supabase_data_source.dart';
 
 @Injectable(as: NewsRepository)
 class NewsRepositoryImpl extends BaseApiRepository implements NewsRepository {
-  final NewsDataSource _NewsDataSource;
-  // final NetworkInfo networkInfo;
-  NewsRepositoryImpl(this._NewsDataSource,
-      // this.networkInfo
+  final NewsDataSource _newsDataSource;
+  final NetworkInfo networkInfo;
+  NewsRepositoryImpl(this._newsDataSource,
+      this.networkInfo
       );
 
   @override
   Future<Either<Failure, List<NewsModel>>> getAllNews() async {
+    if (await networkInfo.isConnected) {
     try {
       final remoteGetNews =
-      await _NewsDataSource.getAllNews() ;
+      await _newsDataSource.getAllNews() ;
       return Right(remoteGetNews);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));
     } on UnknownException catch (e) {
       return Left(UnknownFailure(message: e.message));
     }
-  }
-  
+  }else {
+      return Left(OfflineFailure());
+    }
+    }
+
 }

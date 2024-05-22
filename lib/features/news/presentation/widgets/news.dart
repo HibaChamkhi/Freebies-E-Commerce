@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:freebies_e_commerce/features/news/data/models/news.dart';
 import 'package:freebies_e_commerce/features/news/presentation/bloc/news_bloc.dart';
 import 'package:freebies_e_commerce/features/news/presentation/widgets/new_box.dart';
@@ -6,6 +7,7 @@ import 'package:freebies_e_commerce/features/news/presentation/widgets/search_ne
 
 class News extends StatefulWidget {
   const News({super.key, required this.state, required this.isLoggedIn});
+
   final bool isLoggedIn;
   final NewsState state;
 
@@ -30,15 +32,18 @@ class _NewsState extends State<News> {
           ),
           // Wrap ListView.builder in a ConstrainedBox
           ConstrainedBox(
-            constraints: const BoxConstraints(
-              maxHeight: 500.0, // Adjust this value as needed
+            constraints:  BoxConstraints(
+              maxHeight: 500.0.h // Adjust this value as needed
             ),
             child: ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemCount: 4,
               itemBuilder: (context, index) {
-                return NewBox(newsModel: widget.state.newsValue[index]);
+                return NewBox(
+                  newsModel: widget.state.newsValue[index],
+                  isLoggedIn: widget.isLoggedIn,
+                );
               },
             ),
           ),
@@ -50,8 +55,7 @@ class _NewsState extends State<News> {
                     builder: (context) => NewsCategoryScreen(
                           state: widget.state,
                           isLoggedIn: widget.isLoggedIn,
-                          searchNews: (String) {
-                          },
+                          searchNews: (String) {},
                         )),
               );
             },

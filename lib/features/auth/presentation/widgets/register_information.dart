@@ -62,6 +62,8 @@ class _RegisterInformationState extends State<RegisterInformation> {
                 title: const Text('Choose from Gallery'),
                 onTap: () {
                   _pickImageFromGallery();
+                  Navigator.of(context).pop();
+
                 },
               ),
               ListTile(
@@ -69,6 +71,8 @@ class _RegisterInformationState extends State<RegisterInformation> {
                 title: const Text('Take a Photo'),
                 onTap: () {
                   _pickImageFromCamera();
+                  Navigator.of(context).pop();
+
                 },
               ),
             ],

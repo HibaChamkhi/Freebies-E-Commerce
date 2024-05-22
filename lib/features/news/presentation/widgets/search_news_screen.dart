@@ -93,7 +93,7 @@ class _newsCategoryScreenState extends State<NewsCategoryScreen> {
                           ),
                           itemCount: widget.state.newsValue.length,
                           itemBuilder: (context, index) {
-                            return NewBox(newsModel: widget.state.newsValue[index]);
+                            return NewBox(newsModel: widget.state.newsValue[index], isLoggedIn: widget.isLoggedIn,);
                           },
                         ),
                       )
@@ -120,7 +120,7 @@ class _newsCategoryScreenState extends State<NewsCategoryScreen> {
                             SizedBox(
                               width: 10.w,
                             ),
-                            SizedBox(width:250,child: Text(widget.state.newsValue[index].title)),
+                            SizedBox(width:250.w,child: Text(widget.state.newsValue[index].title)),
                           ],
                         ),
                       ),
