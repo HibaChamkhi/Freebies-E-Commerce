@@ -48,7 +48,7 @@ class _TopRatedProductPageState extends State<TopRatedProductPage> {
         );
       }
       }, builder: (context, state) {
-        return Container(
+        return state.topRatedProducts.isEmpty ? Container() : Container(
           height: 350.h,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

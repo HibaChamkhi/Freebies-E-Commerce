@@ -48,7 +48,7 @@ class _NewProductPageState extends State<NewProductPage> {
         );
       }
       }, builder: (context, state) {
-        return Container(
+        return state.newProducts.isEmpty ? Container() : Container(
           height: 350.h,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -48,7 +48,7 @@ class _ProductsWithSpecialOffersPageState extends State<ProductsWithSpecialOffer
         );
       }
       }, builder: (context, state) {
-        return Container(
+        return state.productsWithSpecialOffers.isEmpty ? Container() : Container(
           height: 350.h,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

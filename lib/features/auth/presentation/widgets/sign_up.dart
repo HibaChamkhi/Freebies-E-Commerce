@@ -29,7 +29,7 @@ class _SignUpState extends State<SignUp> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 40.0),
+            padding: const EdgeInsets.only(bottom: 40.0),
             child: InkWell(
               onTap: () {
                 Navigator.push(

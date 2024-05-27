@@ -89,7 +89,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(4, (index) => _buildCodeTextField(index)),
             ),
-            const SizedBox(height: 10),
+             SizedBox(height: 10.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(4, (index) => Text(_errors[index], style: TextStyle(color: Colors.red))),
@@ -111,7 +111,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   },
                   child: Container(
                     alignment: Alignment.center,
-                    width: 325,
+                    width: 325.w,
                     height: 50,
                     decoration: BoxDecoration(color: marinerApprox, borderRadius: BorderRadius.circular(10)),
                     child: const Text(

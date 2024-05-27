@@ -13,14 +13,13 @@ import '../data_source/supabase_data_source.dart';
 import '../models/product/product.dart';
 import '../models/sub_category/sub_category.dart';
 
-
 @Injectable(as: ProductRepository)
-class ProductRepositoryImpl extends BaseApiRepository implements ProductRepository {
+class ProductRepositoryImpl extends BaseApiRepository
+    implements ProductRepository {
   final ProductDataSource _ProductDataSource;
-  // final NetworkInfo networkInfo;
-  ProductRepositoryImpl(this._ProductDataSource,
-      // this.networkInfo
-      );
+  final NetworkInfo networkInfo;
+
+  ProductRepositoryImpl(this._ProductDataSource, this.networkInfo);
 
   @override
   Future<Either<Failure, List<ProductModel>>> getProducts(
@@ -30,82 +29,106 @@ class ProductRepositoryImpl extends BaseApiRepository implements ProductReposito
       List<int>? subcategoryIds,
       ProductSortType? sortType,
       double? minPrice,
-      double? maxPrice)  async {
+      double? maxPrice) async {
     // if (await networkInfo.isConnected) {
-      try {
-        final remoteGetProducts =
-        await _ProductDataSource.getProducts(fetchType,searchQuery,categoryId,subcategoryIds,sortType,minPrice,maxPrice) ;
-        return Right(remoteGetProducts);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(message: e.message));
-      } on UnknownException catch (e) {
-        return Left(UnknownFailure(message: e.message));
-      }
+    try {
+      final remoteGetProducts = await _ProductDataSource.getProducts(
+          fetchType,
+          searchQuery,
+          categoryId,
+          subcategoryIds,
+          sortType,
+          minPrice,
+          maxPrice);
+      return Right(remoteGetProducts);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    } on UnknownException catch (e) {
+      return Left(UnknownFailure(message: e.message));
     }
+  }
+
   @override
   Future<Either<Failure, List<CategoryModel>>> getCategories() async {
-    // if (await networkInfo.isConnected) {
+    if (await networkInfo.isConnected) {
       try {
-        final remoteGetCategories =
-        await _ProductDataSource.getCategories() ;
+        final remoteGetCategories = await _ProductDataSource.getCategories();
         return Right(remoteGetCategories);
       } on ServerException catch (e) {
         return Left(ServerFailure(message: e.message));
       } on UnknownException catch (e) {
         return Left(UnknownFailure(message: e.message));
       }
+    } else {
+      return Left(OfflineFailure());
     }
+  }
+
   @override
-  Future<Either<Failure, List<SubCategoryModel>>> getSubCategories(String categoryId) async {
-    // if (await networkInfo.isConnected) {
+  Future<Either<Failure, List<SubCategoryModel>>> getSubCategories(
+      String categoryId) async {
+    if (await networkInfo.isConnected) {
       try {
         final remoteGetSubCategories =
-        await _ProductDataSource.getSubCategories(categoryId) ;
+            await _ProductDataSource.getSubCategories(categoryId);
         return Right(remoteGetSubCategories);
       } on ServerException catch (e) {
         return Left(ServerFailure(message: e.message));
       } on UnknownException catch (e) {
         return Left(UnknownFailure(message: e.message));
       }
+    } else {
+      return Left(OfflineFailure());
     }
+  }
 
   @override
   Future<Either<Failure, Unit>> deleteSearchValue(int searchId) async {
-    try {
-      final remoteDeleteSearchValue =
-          await _ProductDataSource.deleteSearchValue(searchId) ;
-      return Right(remoteDeleteSearchValue);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
-    } on UnknownException catch (e) {
-      return Left(UnknownFailure(message: e.message));
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteDeleteSearchValue =
+            await _ProductDataSource.deleteSearchValue(searchId);
+        return Right(remoteDeleteSearchValue);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(message: e.message));
+      } on UnknownException catch (e) {
+        return Left(UnknownFailure(message: e.message));
+      }
+    } else {
+      return Left(OfflineFailure());
     }
   }
 
   @override
   Future<Either<Failure, List<SearchModel>>> getSearchValue() async {
-    try {
-      final remoteGetSearchValue =
-      await _ProductDataSource.getSearchValue() ;
-      return Right(remoteGetSearchValue);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
-    } on UnknownException catch (e) {
-      return Left(UnknownFailure(message: e.message));
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteGetSearchValue = await _ProductDataSource.getSearchValue();
+        return Right(remoteGetSearchValue);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(message: e.message));
+      } on UnknownException catch (e) {
+        return Left(UnknownFailure(message: e.message));
+      }
+    } else {
+      return Left(OfflineFailure());
     }
   }
 
   @override
   Future<Either<Failure, Unit>> setSearchValue(SearchModel searchValue) async {
-    try {
-      final remoteSetSearchValue =
-      await _ProductDataSource.setSearchValue(searchValue) ;
-      return Right(remoteSetSearchValue);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
-    } on UnknownException catch (e) {
-      return Left(UnknownFailure(message: e.message));
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteSetSearchValue =
+            await _ProductDataSource.setSearchValue(searchValue);
+        return Right(remoteSetSearchValue);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(message: e.message));
+      } on UnknownException catch (e) {
+        return Left(UnknownFailure(message: e.message));
+      }
+    } else {
+      return Left(OfflineFailure());
     }
   }
-  
 }

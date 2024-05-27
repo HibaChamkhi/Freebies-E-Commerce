@@ -43,7 +43,7 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           );
         }
-        else if (state.registerStatus == RegisterStatus.loading) {
+         if (state.registerStatus == RegisterStatus.loading) {
           Center(
             child: SizedBox(
               height: 60.h,
@@ -55,9 +55,17 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           );
         }
-        else if (state.registerStatus == RegisterStatus.success) {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => VerificationScreen(emailOrPhone: widget.emailOrPhone,) ));
+         if (state.registerStatus == RegisterStatus.success)
+         {
+           WidgetsBinding.instance.addPostFrameCallback((_) {
+             Navigator.of(context).pushReplacement(
+                 MaterialPageRoute(builder: (_) =>
+                     VerificationScreen(emailOrPhone: widget.emailOrPhone,) )
+             );
+           });
+         }
+         {
+
         }
       }, builder: (context, state) {
         return  RegisterInformation(emailOrPhone: widget.emailOrPhone,);

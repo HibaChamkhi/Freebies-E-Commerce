@@ -51,7 +51,6 @@ class _SearchProductPageState extends State<SearchProductPage> {
           }
         },
         builder: (context, state) {
-          print("GetSearchValueEvent : ${state.searchValue}");
           return SearchScreen(searchProduct: (query) {
             BlocProvider.of<SearchBloc>(context)
                 .add( SearchProductEvent(query: query));
