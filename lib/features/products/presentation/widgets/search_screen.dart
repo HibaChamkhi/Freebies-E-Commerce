@@ -31,7 +31,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("productss : ${widget.state.products}");
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,

@@ -150,9 +150,6 @@ class RemoteDataSourceImpl implements ProductDataSource {
           // .gte('price', minPrice!) // Add this line for minimum price
           // .lte('price', maxPrice!); // Add this line for maximum price
         } else {
-          print(minPrice);
-          print(maxPrice);
-          print(categoryId);
           response = await supabase
               .from('products')
               .select('*')
@@ -167,11 +164,9 @@ class RemoteDataSourceImpl implements ProductDataSource {
         switch (sortType) {
           case ProductSortType.nameAsc:
             response.sort((a, b) => a['name'].compareTo(b['name']));
-            print("response nameAsc $response");
             break;
           case ProductSortType.nameDesc:
             response.sort((a, b) => b['name'].compareTo(a['name']));
-            print("response nameDesc $response");
 
             break;
           case ProductSortType.priceHighToLow:
@@ -197,15 +192,12 @@ class RemoteDataSourceImpl implements ProductDataSource {
     try {
       List<Map<String, dynamic>> response =
           await supabase.from('categories').select('*');
-      print("categories response $response");
       var products = response
           .map((categoryData) => CategoryModel.fromJson(categoryData))
           .toList();
-      print(
-          "categories ${response.map((categoryData) => CategoryModel.fromJson(categoryData)).toList()}");
+
       return products;
     } catch (e) {
-      print('Error fetching categories: $e');
       throw ServerException(message: e.toString());
     }
   }
@@ -217,15 +209,12 @@ class RemoteDataSourceImpl implements ProductDataSource {
           .from('sub_categories')
           .select('*')
           .eq('category_id', categoryId);
-      print("sub_categories response $response");
       var products = response
           .map((categoryData) => SubCategoryModel.fromJson(categoryData))
           .toList();
-      print(
-          "sub_categories ${response.map((categoryData) => SubCategoryModel.fromJson(categoryData)).toList()}");
+
       return products;
     } catch (e) {
-      print('Error fetching sub_categories: $e');
       throw ServerException(message: e.toString());
     }
   }
@@ -238,19 +227,15 @@ class RemoteDataSourceImpl implements ProductDataSource {
       final response = await supabase.from('search').insert(
           {'user_id': session?.user.id ?? "", 'text': searchValue.text});
 
-      print("setSearchValue response $response");
 
       if (response.error != null) {
         // Handle error
-        print('Error inserting data: ${response.error!.message}');
         return unit; // Assuming unit is defined somewhere in your code
       } else {
         // Data inserted successfully
-        print('Data inserted successfully');
         return unit;
       }
     } catch (e) {
-      print('Error inserting data: $e');
       throw ServerException(message: e.toString());
     }
   }
@@ -267,14 +252,11 @@ class RemoteDataSourceImpl implements ProductDataSource {
         var products = response
             .map((categoryData) => SearchModel.fromJson(categoryData))
             .toList();
-        print("categories $products");
         return products;
       } else {
-        print('User not authenticated');
         return [];
       }
     } catch (e) {
-      print('Error fetching categories: $e');
       throw ServerException(message: e.toString());
     }
   }
@@ -291,19 +273,14 @@ class RemoteDataSourceImpl implements ProductDataSource {
             .eq('user_id', userId)
             .eq('id', searchId);
         if (response.error != null) {
-          print('Error deleting search value: ${response.error!.message}');
           return unit;
         } else {
-          // Search value deleted successfully
-          print('Search value deleted successfully');
           return unit;
         }
       } else {
-        print('User not authenticated');
         return unit;
       }
     } catch (e) {
-      print('Error deleting search value: $e');
       throw ServerException(message: e.toString());
     }
   }

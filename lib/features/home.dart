@@ -13,6 +13,11 @@ import 'package:freebies_e_commerce/features/products/presentation/widgets/produ
 import 'package:freebies_e_commerce/features/products/presentation/widgets/search_screen.dart';
 
 import '../core/config/themes/app_theme.dart';
+import '../core/utils/widgets/login_popup.dart';
+import '../core/utils/widgets/logout_popup.dart';
+import 'news/presentation/pages/home_news_page.dart';
+import 'news/presentation/widgets/news.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.isLoggedIn});
@@ -30,9 +35,39 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: const Text(
-            "Mega Mall",
-            style: TextStyle(color: marinerApprox, fontWeight: FontWeight.bold),
+          title: SizedBox(
+            width: double.infinity,
+            child: Stack(
+              children: [
+                Center(
+                  child: Text(
+                    "Mega Mall",
+                    style: TextStyle(
+                        color: marinerApprox, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Positioned(
+                  right: 0,
+                  child: InkWell(
+                      onTap: () {
+                        widget.isLoggedIn
+                            ? showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return logoutPopupWidget();
+                                },
+                              )
+                            : showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return loginPopupWidget(context);
+                                },
+                              );
+                      },
+                      child: Icon(Icons.person_2_rounded)),
+                ),
+              ],
+            ),
           ),
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(5.0),
@@ -56,14 +91,16 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 20.0.h, horizontal: 30.w),
+                padding:
+                    EdgeInsets.symmetric(vertical: 20.0.h, horizontal: 30.w),
                 child: InkWell(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                SearchProductPage(isLoggedIn: widget.isLoggedIn,)), // Ensure SearchScreen is correctly defined
+                            builder: (context) => SearchProductPage(
+                                  isLoggedIn: widget.isLoggedIn,
+                                )), // Ensure SearchScreen is correctly defined
                       );
                     },
                     child: Container(
@@ -93,9 +130,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    Image.asset("assets/images/pub.png",width: 315.w,),
-                    SizedBox(width: 10.w,),
-                    Image.asset("assets/images/pub.png",width: 315.w,),
+                    Image.asset(
+                      "assets/images/pub.png",
+                      width: 315.w,
+                    ),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Image.asset(
+                      "assets/images/pub.png",
+                      width: 315.w,
+                    ),
                   ],
                 ),
               ),
@@ -114,12 +159,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     Image.asset("assets/images/BannerDefault.png"),
                     NewProductPage(isLoggedIn: widget.isLoggedIn),
                     Image.asset("assets/images/bannerDefault2.png"),
-                    ProductsWithSpecialOffersPage(isLoggedIn: widget.isLoggedIn),
+                    ProductsWithSpecialOffersPage(
+                        isLoggedIn: widget.isLoggedIn),
                     BestSellersProductPage(isLoggedIn: widget.isLoggedIn),
                     TopRatedProductPage(isLoggedIn: widget.isLoggedIn)
                   ],
                 ),
               ),
+              Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 30.w, vertical: 30.h),
+                  child: HomeNewsPage(
+                    isLoggedIn: widget.isLoggedIn,
+                  ))
             ],
           ),
         ));

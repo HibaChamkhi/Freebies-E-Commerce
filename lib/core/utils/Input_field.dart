@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../config/themes/app_theme.dart';
+
 class InputField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
@@ -73,12 +75,9 @@ class _TextFormFieldWidget extends State<InputField> {
             filled: true,
             border: const OutlineInputBorder(borderSide: BorderSide.none),
             suffixIcon: widget.isPassword
-                ? IconButton(
-              icon: SvgPicture.asset(
-                'assets/icons/hide_password_icon.svg',
-                height: 24.h,
-              ),
-              onPressed: () {
+                ? InkWell(
+              child: Icon(!hidePassword ? Icons.remove_red_eye : Icons.visibility_off ,color: marinerApprox,),
+              onTap: () {
                 setState(() {
                   hidePassword = !hidePassword;
                 });

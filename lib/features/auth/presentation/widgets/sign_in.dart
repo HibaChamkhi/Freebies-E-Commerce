@@ -80,6 +80,7 @@ class _SignInState extends State<SignIn> {
                       ),
                       const SizedBox(height: 20),
                       InputField(
+                        isPassword: true,
                         controller: passwordController,
                         hintText: 'password',
                         validator: (value) => validatePassword(passwordController.text,"password",),

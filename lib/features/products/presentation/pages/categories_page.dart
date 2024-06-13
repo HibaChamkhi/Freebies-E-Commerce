@@ -86,13 +86,13 @@ class _CategoriesPageState extends State<CategoriesPage> {
               ),
               Flexible(
                 child: SizedBox(
-                  height: 150,
+                  height: 150.h,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: state.categories.length,
                     itemBuilder: (context, index) {
                       return Container(
-                        margin: EdgeInsets.only(top: 20.0.h,bottom: 20.h,left: 20.w),
+                        margin: EdgeInsets.only(top: 20.0.h,bottom: 10.h,left: 20.w),
                         child: CategoryBox(category: state.categories[index], isLoading: state.categoriesStatus == CategoriesStatus.loading, isLoggedIn: widget.isLoggedIn,),
                       );
                     },

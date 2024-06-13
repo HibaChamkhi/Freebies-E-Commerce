@@ -48,7 +48,7 @@ class _BestSellersProductPageState extends State<BestSellersProductPage> {
         );
       }
       }, builder: (context, state) {
-        return Container(
+        return state.bestSellers.isEmpty ? Container() : Container(
           height: 350.h,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
