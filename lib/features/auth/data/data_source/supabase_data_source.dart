@@ -42,15 +42,11 @@ class AuthRemoteDataSourceImpl implements AuthDataSource {
           password: user.password,
           data: {"username": user.username, "image": ""});
       final String imageUrl = await uploadImage(imageFile, res.user?.id ?? "");
-      print('userUpdated $imageUrl');
-
       final userUpdated = await supabase.auth.updateUser(
         UserAttributes(data: {"image": imageUrl}),
       );
-      print('userUpdated ${userUpdated.user}');
       return Future.value(unit);
     } catch (e) {
-      print('e ${e}');
       throw ServerException(message: e.toString());
     }
   }
