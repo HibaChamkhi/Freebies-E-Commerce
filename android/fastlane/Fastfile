@@ -1,14 +1,12 @@
 
-default_platform(:android)
 
-# To run the lane, execute the following command:
-# bundle exec fastlane firebase_distribution
+default_platform(:android)
 
 platform :android do
   desc "Lane for Android Firebase App Distribution"
   lane :firebase_distribution do
     sh "flutter clean"
-    sh "flutter build apk --release  lib/main.dart "
+    sh "flutter build apk --release  lib/main.dart"
     firebase_app_distribution(
         app: "1:363769471097:android:c09e5440786882ba4234a8",
         firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
@@ -19,3 +17,4 @@ platform :android do
   )
   end
 end
+

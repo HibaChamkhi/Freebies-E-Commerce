@@ -23,8 +23,8 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.example.flutter_complete_project"
-    compileSdkVersion flutter.compileSdkVersion
+    namespace "com.example.freebies_e_commerce"
+    compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -42,27 +42,14 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.flutter_complete_project"
+        applicationId "com.example.freebies_e_commerce"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
-
-    flavorDimensions "default"
-    productFlavors {
-      production {
-          dimension "default"
-          resValue "string", "app_name", "DocDoc Production"
-      }
-      development {
-          dimension "default"
-          applicationIdSuffix ".dev"
-          resValue "string", "app_name", "DocDoc Development"
-      }
-  }
 
     buildTypes {
         release {
